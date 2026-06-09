@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-06-09 22:19:37",
+  "symbol": "_SPX",
+  "data": {
+    "symbol": "^SPX",
+    "security_type": "index",
+    "current_price": 7400.0,
+    "price_change": -19.08,
+    "price_change_percent": -0.26,
+    "bid": 7399.0,
+    "ask": 7401.0,
+    "open": 7438.66,
+    "high": 7483.15,
+    "low": 7237.85,
+    "close": 7400.0,
+    "prev_day_close": 7419.0,
+    "volume": 0,
+    "iv30": 16.12,
+    "iv30_change": 0.5,
+    "iv30_change_percent": 3.2,
+    "last_trade_time": "2026-06-09T16:14:59",
+    "tick": "up",
+    "options": [
+      {"option": "SPXW990115C07400000", "bid": 10.0, "ask": 11.0, "iv": 0.18, "open_interest": 1000.0, "volume": 100.0, "delta": 0.5, "gamma": 0.001, "vega": 1.2, "theta": -0.5, "last_trade_price": 11.0, "last_trade_time": "2026-06-09T12:28:07"},
+      {"option": "SPXW990115P07400000", "bid": 9.0, "ask": 10.0, "iv": 0.19, "open_interest": 500.0, "volume": 200.0, "delta": -0.5, "gamma": 0.001, "vega": 1.2, "theta": -0.5, "last_trade_price": 9.0, "last_trade_time": "2026-06-09T12:30:00"},
+      {"option": "SPXW990115C07450000", "bid": 5.0, "ask": 6.0, "iv": 0.17, "open_interest": 2000.0, "volume": 50.0, "delta": 0.3, "gamma": 0.0008, "vega": 1.0, "theta": -0.4, "last_trade_price": 5.5, "last_trade_time": "2026-06-09T11:00:00"},
+      {"option": "SPXW990115P07350000", "bid": 7.0, "ask": 8.0, "iv": 0.2, "open_interest": 1500.0, "volume": 80.0, "delta": -0.3, "gamma": 0.0009, "vega": 1.1, "theta": -0.45, "last_trade_price": 7.0, "last_trade_time": "2026-06-09T10:00:00"},
+      {"option": "SPX990219C07500000", "bid": 20.0, "ask": 22.0, "iv": 0.16, "open_interest": 3000.0, "volume": 10.0, "delta": 0.25, "gamma": 0.0005, "vega": 2.0, "theta": -0.3, "last_trade_price": 21.0, "last_trade_time": "2026-06-09T09:45:00"},
+      {"option": "SPX990219P07300000", "bid": 25.0, "ask": 27.0, "iv": 0.2, "open_interest": 2500.0, "volume": 20.0, "delta": -0.25, "gamma": 0.0006, "vega": 2.1, "theta": -0.35, "last_trade_price": 26.0, "last_trade_time": "2026-06-09T09:50:00"},
+      {"option": "SPXW990115C07425000", "bid": 0.0, "ask": 0.05, "iv": 0.0, "open_interest": 100.0, "volume": 5.0, "delta": 0.0, "gamma": 0.0, "vega": 0.0, "theta": 0.0, "last_trade_price": 0.05, "last_trade_time": "2026-06-09T09:31:00"},
+      {"option": "SPXW990115P07425000", "bid": 1.0, "ask": 1.2, "iv": 0.15, "open_interest": 0.0, "volume": 50.0, "delta": -0.1, "gamma": 0.0007, "vega": 0.5, "theta": -0.2, "last_trade_price": 1.1, "last_trade_time": "2026-06-09T09:32:00"},
+      {"option": "SPX990219C07600000", "bid": 8.0, "ask": 9.0, "iv": 0.15, "open_interest": 10.0, "volume": 0.0, "delta": null, "gamma": null, "vega": null, "theta": null, "last_trade_price": 0.0, "last_trade_time": "2026-06-08T15:00:00"},
+      {"option": "QQQ990115C00500000", "bid": 1.0, "ask": 2.0, "iv": 0.3, "open_interest": 100.0, "volume": 10.0, "delta": 0.5, "gamma": 0.01, "vega": 0.3, "theta": -0.1, "last_trade_price": 1.5, "last_trade_time": "2026-06-09T10:10:00"},
+      {"option": "SPXW200117C05000000", "bid": 0.0, "ask": 0.0, "iv": 0.0, "open_interest": 50.0, "volume": 0.0, "delta": 1.0, "gamma": 0.0, "vega": 0.0, "theta": 0.0, "last_trade_price": 0.0, "last_trade_time": "2020-01-10T10:00:00"},
+      {"option": "BADSYMBOL", "bid": 0.0, "ask": 0.0, "iv": 0.0, "open_interest": 0.0, "volume": 0.0, "delta": 0.0, "gamma": 0.0, "last_trade_price": 0.0, "last_trade_time": "2026-06-09T10:00:00"}
+    ]
+  }
+}

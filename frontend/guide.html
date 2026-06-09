@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide — Tam-Gamma</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .doc { max-width: 760px; margin: 0 auto; padding: 20px 16px 60px; }
+    .doc h1 { font-size: 22px; }
+    .doc h2 { font-size: 16px; margin-top: 28px; color: var(--text); }
+    .doc p, .doc li { color: #aeb7c8; font-size: 14px; }
+    .doc code { background: var(--panel); border: 1px solid var(--border);
+      border-radius: 4px; padding: 1px 6px; font-size: 12.5px; }
+    .doc table { margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">TAM<span>GAMMA</span></div>
+    <div class="top-right"><a class="guide-link" href="/">← Dashboard</a></div>
+  </header>
+
+  <div class="doc">
+    <h1>How to read this dashboard</h1>
+    <p>This tool estimates options-based support/resistance structure for SPX,
+    SPY and QQQ from the free CBOE delayed options chain. Everything is
+    recalculated from a fresh snapshot every 30 seconds. It is an educational
+    market-structure tool — <b>not financial advice</b>.</p>
+
+    <h2>What is GEX?</h2>
+    <p>Gamma exposure (GEX) estimates how much option dealers must hedge as the
+    underlying moves. Per contract:</p>
+    <p><code>GEX = gamma × open&nbsp;interest × 100 × spot² × 0.01</code></p>
+    <p>Calls count positive, puts negative (the standard dealer-positioning
+    convention: dealers are assumed long calls / short puts). The result is
+    dollars of hedging flow per 1% move in the underlying.</p>
+    <ul>
+      <li><b>Positive GEX (green)</b> — dealers sell rallies and buy dips:
+        volatility dampening, range/pin behavior.</li>
+      <li><b>Negative GEX (red)</b> — dealers buy rallies and sell dips:
+        volatility amplification, faster directional moves.</li>
+    </ul>
+
+    <h2>GEX Heatmap</h2>
+    <p>Rows are strikes (high → low), columns are the next 14 expirations, cell
+    color is net GEX at that strike × expiration. The white dashed line marks
+    spot. Scan around spot: big green above = potential resistance/pin, big
+    green below = potential support; red clusters = unstable zones. The
+    same-day column usually dominates intraday behavior.</p>
+
+    <h2>Strike Map</h2>
+    <p>The tornado chart shows call GEX (green, right) and put GEX (red, left)
+    per strike for the selected expiration, with the net profile overlaid.
+    Lines mark:</p>
+    <ul>
+      <li><b>Call Wall</b> — strike with the largest positive net GEX
+        (resistance / pin candidate).</li>
+      <li><b>Put Wall</b> — strike with the largest negative net GEX
+        (support / acceleration zone if lost).</li>
+      <li><b>Gamma Flip</b> — interpolated level where the cumulative net GEX
+        profile changes sign; above it the market tends to be in positive
+        gamma, below it negative. It can be absent when one side dominates the
+        whole chain.</li>
+    </ul>
+
+    <h2>0DTE</h2>
+    <p>Same-day expiration only, with a tighter ±3% strike window: 0DTE share
+    of total volume, 0DTE net GEX, and the day's own walls/flip. SPX lists
+    daily expirations; on non-trading days this tab shows the next expiry.</p>
+
+    <h2>Option Flow</h2>
+    <p>Call and put volume (or traded premium) by strike for the selected
+    expiration, plus the largest contracts by premium. Side (buy/sell) is a
+    heuristic — last trade at/above the ask counts as buying, at/below the bid
+    as selling. A big flow number is <b>not</b> automatically bullish or
+    bearish; combine it with the heatmap and strike map.</p>
+
+    <h2>Sentiment</h2>
+    <p>A weighted composite of eight indicators, each scored −100…+100:</p>
+    <table>
+      <tr><th>Component</th><th>Weight</th><th>Bullish when…</th></tr>
+      <tr><td>Gamma regime (spot vs flip)</td><td>20%</td><td>spot well above the flip</td></tr>
+      <tr><td>Put/Call ratio (volume)</td><td>15%</td><td>calls outpace puts</td></tr>
+      <tr><td>Delta-exposure tilt</td><td>15%</td><td>net delta exposure positive</td></tr>
+      <tr><td>VIX day change</td><td>15%</td><td>VIX falling</td></tr>
+      <tr><td>Put/Call ratio (OI)</td><td>10%</td><td>below the ~1.2 index baseline</td></tr>
+      <tr><td>25Δ IV skew (~30 DTE)</td><td>10%</td><td>put skew below ~4 vol pts</td></tr>
+      <tr><td>Price momentum (day)</td><td>10%</td><td>underlying up on the day</td></tr>
+      <tr><td>IV30 day change</td><td>5%</td><td>implied vol falling</td></tr>
+    </table>
+    <p>Missing components (e.g. VIX feed down) are dropped and weights
+    renormalized. Labels: ≥+50 Strongly Bullish, +15…+50 Bullish, ±15 Neutral,
+    −15…−50 Bearish, ≤−50 Strongly Bearish.</p>
+
+    <h2>Trinity</h2>
+    <p>SPX, SPY and QQQ side by side. Walls and flip are shown in % distance
+    from spot so the three markets are directly comparable. Agreement across
+    all three (same regime) makes the structure more reliable; divergence is a
+    caution flag.</p>
+
+    <h2>A practical workflow</h2>
+    <ul>
+      <li>Start with the closest expiration during the cash session.</li>
+      <li>Check the next weekly expiration for larger walls.</li>
+      <li>Compare spot with the largest positive and negative GEX strikes.</li>
+      <li>Recheck after major moves or macro events — walls migrate intraday.</li>
+    </ul>
+
+    <h2>Data &amp; limitations</h2>
+    <ul>
+      <li>Quotes are CBOE <b>delayed</b> data (~15 minutes). The math is
+        recomputed every 30 s on the latest snapshot.</li>
+      <li>Open interest updates once each morning, so early-session OI can
+        lag yesterday's trading.</li>
+      <li>GEX assumes the standard dealer book (long calls, short puts);
+        reality varies, so treat levels as zones, not lines.</li>
+      <li>Always combine with price action, volume, liquidity, news and your
+        own risk controls.</li>
+    </ul>
+  </div>
+</body>
+</html>

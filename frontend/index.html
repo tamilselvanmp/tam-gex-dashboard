@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Free SPX / SPY / QQQ gamma exposure (GEX) heatmap, strike map, 0DTE roadmap, option flow and sentiment dashboard. Educational use only.">
+  <title>Tam-Gamma — SPX · SPY · QQQ GEX dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+  <script defer src="/js/format.js"></script>
+  <script defer src="/js/api.js"></script>
+  <script defer src="/js/charts.js"></script>
+  <script defer src="/js/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">TAM<span>GAMMA</span></div>
+    <nav class="symbols" id="symbolNav">
+      <button data-symbol="SPX">SPX</button>
+      <button data-symbol="SPY">SPY</button>
+      <button data-symbol="QQQ">QQQ</button>
+      <button data-symbol="TRINITY">Trinity</button>
+    </nav>
+    <div class="top-right">
+      <span id="refreshChip" class="chip">—</span>
+      <a class="guide-link" href="/guide.html">Guide</a>
+    </div>
+  </header>
+
+  <div id="statusRow" class="status-row"></div>
+
+  <nav class="tabs" id="viewTabs">
+    <button data-view="heatmap"><i>▦</i><span>GEX Heatmap</span></button>
+    <button data-view="strikemap"><i>▤</i><span>Strike Map</span></button>
+    <button data-view="zerodte"><i>◷</i><span>0DTE</span></button>
+    <button data-view="flow"><i>⇄</i><span>Option Flow</span></button>
+    <button data-view="sentiment"><i>◑</i><span>Sentiment</span></button>
+  </nav>
+
+  <main>
+    <div id="banner" class="banner hidden"></div>
+
+    <section id="panel-heatmap" class="panel">
+      <div class="panel-note">Net gamma exposure by strike × expiration.
+        Green = positive GEX (dealers dampen moves), red = negative GEX
+        (dealers amplify moves). Dashed line = spot.</div>
+      <div class="chart-box" id="chart-heatmap"></div>
+    </section>
+
+    <section id="panel-strikemap" class="panel hidden">
+      <div class="panel-controls">
+        <label>Expiration
+          <select id="expirySelect"></select>
+        </label>
+        <span id="strikemapLevels" class="chips-inline"></span>
+      </div>
+      <div class="chart-box" id="chart-strikemap"></div>
+      <div class="grid-2">
+        <div class="card"><h3>Top + GEX strikes</h3><table id="topPos"></table></div>
+        <div class="card"><h3>Top − GEX strikes</h3><table id="topNeg"></table></div>
+      </div>
+      <div class="card">
+        <h3>Total net GEX by expiration</h3>
+        <div class="chart-box small" id="chart-gexbyexp"></div>
+      </div>
+    </section>
+
+    <section id="panel-zerodte" class="panel hidden">
+      <div id="zerodteEmpty" class="empty hidden"></div>
+      <div id="zerodteContent">
+        <div class="panel-controls">
+          <span id="zerodteStats" class="chips-inline"></span>
+        </div>
+        <div class="panel-controls">
+          <span id="zerodteLevels" class="chips-inline"></span>
+        </div>
+        <div class="chart-box" id="chart-zerodte"></div>
+      </div>
+    </section>
+
+    <section id="panel-flow" class="panel hidden">
+      <div class="panel-controls">
+        <label>Expiration
+          <select id="flowExpirySelect"></select>
+        </label>
+        <span id="flowModeBtns" class="seg">
+          <button data-mode="vol" class="active">Volume</button>
+          <button data-mode="prem">Premium</button>
+        </span>
+      </div>
+      <div class="panel-controls"><span id="flowTotals" class="chips-inline"></span></div>
+      <div class="panel-note">Side classification is a heuristic on the last
+        trade vs the current delayed quote (at/above ask = buy, at/below bid =
+        sell) — treat as an estimate, not tape-true aggressor data.</div>
+      <div class="chart-box" id="chart-flow"></div>
+      <div class="card"><h3>Largest contracts by traded premium</h3>
+        <div class="table-scroll"><table id="topTrades"></table></div>
+      </div>
+    </section>
+
+    <section id="panel-sentiment" class="panel hidden">
+      <div class="grid-senti">
+        <div class="card"><h3>Composite sentiment</h3>
+          <div class="chart-box gauge" id="chart-gauge"></div>
+        </div>
+        <div class="card"><h3>Components</h3>
+          <div class="table-scroll"><table id="sentiComponents"></table></div>
+        </div>
+      </div>
+      <div class="metric-grid" id="sentiMetrics"></div>
+    </section>
+
+    <section id="panel-trinity" class="panel hidden">
+      <div id="trinityAgreement" class="banner ok"></div>
+      <div class="trinity-grid" id="trinityGrid"></div>
+      <div class="panel-note">Net GEX profile of the 15 strikes nearest spot,
+        expressed in % distance from spot so SPX, SPY and QQQ are directly
+        comparable.</div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Data: CBOE delayed quotes (~15&nbsp;min delay; open interest updates each
+    morning). GEX, walls, flip and sentiment are recalculated every 30&nbsp;s.
+    Educational market-structure tool — not financial advice.
+    <a href="/guide.html">How to read this dashboard →</a></p>
+  </footer>
+</body>
+</html>

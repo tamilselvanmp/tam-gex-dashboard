@@ -1,0 +1,36 @@
+/* Fetch wrapper: timeout via AbortController, JSON errors mapped to Error. */
+(function () {
+  "use strict";
+
+  async function getJSON(url, opts) {
+    opts = opts || {};
+    const ctrl = new AbortController();
+    const timeout = opts.timeout || 25000;
+    const timer = setTimeout(() => ctrl.abort(), timeout);
+    if (opts.signal) {
+      if (opts.signal.aborted) ctrl.abort();
+      else opts.signal.addEventListener("abort", () => ctrl.abort(), { once: true });
+    }
+    try {
+      const resp = await fetch(url, { signal: ctrl.signal });
+      if (!resp.ok) {
+        const err = new Error("HTTP " + resp.status);
+        err.status = resp.status;
+        throw err;
+      }
+      return await resp.json();
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  window.Api = {
+    fetchSnapshot(symbol, views, opts) {
+      const v = encodeURIComponent(views || "summary");
+      return getJSON("/api/" + symbol.toLowerCase() + "/snapshot?views=" + v, opts);
+    },
+    fetchTrinity(opts) {
+      return getJSON("/api/trinity", opts);
+    },
+  };
+})();
