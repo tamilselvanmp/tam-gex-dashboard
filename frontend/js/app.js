@@ -57,7 +57,9 @@
       $("panel-" + v).classList.toggle("hidden", trinity || v !== state.view));
     $("panel-trinity").classList.toggle("hidden", !trinity);
 
-    if (changed || !state.data) refresh();
+    // Guard double-refresh at startup: restoring the saved route sets
+    // location.hash, which re-fires applyRoute while the first fetch runs.
+    if (changed || (!state.data && !state.loading)) refresh();
     else renderAll();
   }
 
@@ -85,6 +87,7 @@
 
     const isFirst = !state.data && !state.trinity;
     if (isFirst) {
+      if (state.wakeTimer) clearTimeout(state.wakeTimer);  // no orphan timers
       state.wakeTimer = setTimeout(() =>
         banner("Waking the free server — first load can take up to a minute…", "info"), 3000);
       document.body.classList.add("first-load");
